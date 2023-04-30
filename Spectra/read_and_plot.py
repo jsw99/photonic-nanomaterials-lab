@@ -82,7 +82,7 @@ def main():
 			#if is_valid_path(value['-FILES-']):
 			data_file_path_list = value['-FILES-'].split(';')
 			num_files = len(data_file_path_list)
-			print(data_file_path_list)
+			
 			plot_fluorescence_spectrum(data_file_path_list)
 			
 
