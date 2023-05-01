@@ -19,22 +19,70 @@ def is_valid_path(filepath):
 def normalize(data):
     return (data - np.min(data)) / (np.max(data) - np.min(data))
 
+def calculate_max_lim(max_intensity):
+    maximum = max_intensity
+    if maximum >= 10:
+        return math.ceil(maximum*1.15)
+    elif maximum >= 1:
+        return math.ceil(maximum*1.15*10) / 10
+    elif maximum >= 0.1:
+        return math.ceil(maximum*1.15*100) / 100
+    elif maximum >= 0.01:
+        return math.ceil(maximum*1.15*1000) / 1000 
+    elif maximum >= 0.001:
+        return math.ceil(maximum*1.15*10000) / 10000
+    elif maximum >= 0.0001:
+        return math.ceil(maximum*1.15*100000) / 100000
+    elif maximum >= 0.00001:
+        return math.ceil(maximum*1.15*1000000) / 1000000
+    else:
+        return math.ceil(maximum*1.15*10000000) / 10000000
+
+def calculate_min_lim(min_intensity):
+    minimum = min_intensity
+    if minimum >= 0:
+        minimum = 0
+    elif minimum <= -10:
+        return math.floor(minimum*1.15*1) / 1
+    elif minimum <= -1:
+        return math.floor(minimum*1.15*10) / 10
+    elif minimum <= -0.1:
+        return math.floor(minimum*1.15*100) / 100
+    elif minimum <= -0.01:
+        return math.floor(minimum*1.15*1000) / 1000
+    elif minimum <= -0.001:
+        return math.floor(minimum*1.15*10000) / 10000
+    elif minimum <= -0.0001:
+        return math.floor(minimum*1.15*100000) / 100000
+    elif minimum <= -0.00001:
+        return math.floor(minimum*1.15*1000000) / 1000000
+    else:
+        return math.floor(minimum*1.15*10000000) / 10000000
+
 def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list):
 
+    intensity_list = []
 	
     fig = plt.figure(figsize=(13, (13-1.5)/1.618))
     ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
 
-    ax.set_xlim(930, 1370)
+    wavelength = np.loadtxt(data_file_path_list[0], usecols=0) # Read wavelength
+    for data_file_path in data_file_path_list: # Read intenisty
+    	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
+    
     min_intensity = 0
     max_intensity = 0
+    for i in range(len(intensity_list)):
+        if max(intensity_list[i]) > max_intensity:
+            max_intensity = max(intensity_list[i])
+    for i in range(len(intensity_list)):
+        if min(intensity_list[i]) < min_intensity:
+            min_intensity = min(intensity_list[i])
 
-    intensity_list = []
+    ax.set_xlim(930, 1370)     
+    ax.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
 
-    wavelength = np.loadtxt(data_file_path_list[0], usecols=0)
-    for data_file_path in data_file_path_list:
-    	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
     for i in range(len(data_file_path_list)):
     	ax.plot(wavelength, intensity_list[i], color=plot_color_list[i], linewidth=2.5, antialiased=True)
@@ -61,7 +109,7 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
 
     plt.show()
 
-    #fig.savefig('12445.png', bbox_inches='tight', dpi=150)
+    #fig.savefig('.png', bbox_inches='tight', dpi=150)
 
 def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list):
 
@@ -104,18 +152,11 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
     
     intensity_list = []
     pct_response = [] #∆F/F
-
+    
     wavelength = np.loadtxt(data_file_path_list[0], usecols=0)
     for data_file_path in data_file_path_list:
     	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
-    for i in range(len(intensity_list)-1):
-        for j in range(len(intensity_list[i])):
-            pct_response.append((float(intensity_list[i+1][j])-float(intensity_list[i][j]))/float(intensity_list[i][j]))
-            
-    min_response = min(pct_response)
-    max_response = max(pct_response)
-    
     min_intensity = 0
     max_intensity = 0
     for i in range(len(intensity_list)):
@@ -124,13 +165,19 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
     for i in range(len(intensity_list)):
         if min(intensity_list[i]) < min_intensity:
             min_intensity = min(intensity_list[i])
+
+    for i in range(len(intensity_list)-1):
+    	for j in range(len(intensity_list[i])):
+        	pct_response.append((float(intensity_list[i+1][j])-float(intensity_list[i][j]))/float(intensity_list[i][j]))
+    min_response = min(pct_response)
+    max_response = max(pct_response)
     
     fig = plt.figure(figsize=(13, (13-1.5)/1.618))
     ax1 = fig.add_axes([0.152, 0.15, 0.735, 0.735*13/(13-1.5)])
     ax1.set_xlim(930, 1370)
-    #ax1.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
+    ax1.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
     ax2 = ax1.twinx()
-    #ax2.set_ylim(calculate_min_lim(min_response), calculate_max_lim(max_response))
+    ax2.set_ylim(calculate_min_lim(min_response), calculate_max_lim(max_response))
 
     lines = []
 
@@ -185,8 +232,8 @@ def main():
 	sg.theme('LightBrown3')
 
 	layout1 = [
-		[sg.Text('Input File:', font='Courier 20'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20')],
-		[sg.OK(font='Courier 20'), sg.Cancel(font='Courier 20')]
+		[sg.Text('Input File:', font='Courier 20', justification='r'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20')],
+		[sg.OK(font='Courier 20'), sg.Cancel(button_color='tomato', font='Courier 20')]
 	]
 
 	window1 = sg.Window('Select file(s).', layout1)
@@ -203,7 +250,7 @@ def main():
 		# Unpack the list of lists, where each inner list represents a row in a GUI 
 		# os.path.basename() returns the final component of a pathname
 		# os.path.normpath() simplifies the path by removing any double slashes and replacing any backslashes with forward slashes
-		*[[sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20'), 
+		*[[sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20', size=(35,1)), 
                sg.InputCombo(values=available_color, default_value='black', font='Courier 20'),
                sg.InputText('Enter Legend Label', font='Courier 20'),
               ] for file_path in data_file_path_list
@@ -235,8 +282,7 @@ def main():
 		elif event == 'Plot ∆F/F':
 			plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
 		elif event == 'Clear':
-			for i in range(2*num_files):
-				window2[i]('')
+			sg.popup_error('Not implemented yet')
 
 	window2.close()
 
