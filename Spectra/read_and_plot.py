@@ -22,8 +22,8 @@ def normalize(data):
 def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list):
 
 	
-    fig = plt.figure(figsize=(13, 13/1.618))
-    ax = fig.add_axes([0.16, 0.15, 0.835, 0.835])
+    fig = plt.figure(figsize=(13, (13-1.5)/1.618))
+    ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
 
     ax.set_xlim(930, 1370)
 
@@ -41,7 +41,7 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
     
 
     ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
-    ax.set_ylabel('Intensity (a.u.)', fontsize=25, labelpad=20)
+    ax.set_ylabel('Intensity (a.u.)', fontsize=25, labelpad=18)
 
     ax.minorticks_on()
     ax.xaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
@@ -65,8 +65,8 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
 
 def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list):
 
-    fig = plt.figure(figsize=(13, 13/1.618))
-    ax = fig.add_axes([0.16, 0.15, 0.835, 0.835])
+    fig = plt.figure(figsize=(13, (13-1.5)/1.618))
+    ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
     ax.set_xlim(930, 1370)
     ax.set_ylim(0, 1)
 
@@ -82,7 +82,7 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
     
 
     ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
-    ax.set_ylabel('Intensity (normalized)', fontsize=25, labelpad=20)
+    ax.set_ylabel('Intensity (normalized)', fontsize=25, labelpad=18)
 
     ax.minorticks_on()
     ax.xaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
@@ -125,8 +125,8 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
         if min(intensity_list[i]) < min_intensity:
             min_intensity = min(intensity_list[i])
     
-    fig = plt.figure(figsize=(13, 13/1.618))
-    ax1 = fig.add_axes([0.16, 0.15, 0.835, 0.835])
+    fig = plt.figure(figsize=(13, (13-1.5)/1.618))
+    ax1 = fig.add_axes([0.152, 0.15, 0.735, 0.735*13/(13-1.5)])
     ax1.set_xlim(930, 1370)
     #ax1.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
     ax2 = ax1.twinx()
@@ -138,15 +138,15 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
         line1 = ax1.plot(wavelength, intensity_list[i], plot_color_list[i], linewidth=2.5, antialiased=True, label=legend_label_list[i])
         lines += line1  
 
-    ax1.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
+    ax1.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=18)
     ax1.set_ylabel('Intensity (a.u.)', fontsize=25, labelpad=20)
     
     ax1.minorticks_on()
     ax1.xaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
     ax1.xaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, top='on', direction='in')
 
-    ax1.yaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
-    ax1.yaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, top='on', direction='in')
+    ax1.yaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, direction='in', pad=15)
+    ax1.yaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, direction='in')
 
     ax1.ticklabel_format(style='plain')
 
@@ -200,7 +200,6 @@ def main():
 	num_files = len(data_file_path_list)
 
 	layout2 = [
-		#[sg.Text('								')] + [[sg.Text(h, font='Courier 20')] for h in headings],
 		# Unpack the list of lists, where each inner list represents a row in a GUI 
 		# os.path.basename() returns the final component of a pathname
 		# os.path.normpath() simplifies the path by removing any double slashes and replacing any backslashes with forward slashes
