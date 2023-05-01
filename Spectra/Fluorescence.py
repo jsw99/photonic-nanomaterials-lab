@@ -198,7 +198,7 @@ def plot_fluorescence_spectrum(wavelength, intensityList, nameList, colorList, f
         for i in ['right', 'left', 'top', 'bottom']:
             ax.spines[i].set_linewidth(4)
 
-        ax.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
+        ax.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
 
         plt.show()
 
@@ -269,8 +269,8 @@ def plot_fluorescence_spectrum(wavelength, intensityList, nameList, colorList, f
         for i in ['right', 'left', 'top', 'bottom']:
             ax1.spines[i].set_linewidth(4)
             ax2.spines[i].set_linewidth(4)
-        ax1.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
-        ax2.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
+        ax1.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
+        ax2.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
 
         plt.show()
 
@@ -317,7 +317,7 @@ def plot_fluorescence_spectrum_normalized(wavelength, intensityList, nameList, c
         for i in ['right', 'left', 'top', 'bottom']:
             ax.spines[i].set_linewidth(4)
 
-        ax.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
+        ax.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
 
         plt.show()
 
@@ -369,8 +369,8 @@ def plot_fluorescence_spectrum_normalized(wavelength, intensityList, nameList, c
             ax1.spines[i].set_linewidth(4)
             ax2.spines[i].set_linewidth(4)
 
-        ax1.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
-        ax2.legend(labels=nameList, loc='best', fontsize=35, shadow=True)
+        ax1.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
+        ax2.legend(labels=nameList, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
 
         plt.show()
 
@@ -445,7 +445,7 @@ def plot_fluorescence_response(wavelength, intensityList, nameList, colorList, f
     for i in range(len(lines)):
         labs.append(lines[i].get_label())
 
-    ax1.legend(handles=lines, labels=labs, loc='best', fontsize=35, shadow=True)
+    ax1.legend(handles=lines, labels=labs, loc='best', fontsize=35, fancybox=True, framealpha=0.5)
     
     plt.show()
     
