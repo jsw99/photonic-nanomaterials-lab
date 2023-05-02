@@ -11,10 +11,10 @@ import PySimpleGUI as sg
 
 
 def is_valid_path(filepath):
-	if filepath and Path(filepath).exists():
-		return True
-	sg.popup_error('Filepath is not valid', font=('Courier', 15))
-	return False
+    if filepath and Path(filepath).exists():
+        return True
+    sg.popup_error('Filepath is not valid', font=('Courier', 15))
+    return False
 
 def normalize(data):
     return (data - np.min(data)) / (np.max(data) - np.min(data))
@@ -62,13 +62,13 @@ def calculate_min_lim(min_intensity):
 def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list):
 
     intensity_list = []
-	
+
     fig = plt.figure(figsize=(13, (13-1.5)/1.618))
     ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
 
     wavelength = np.loadtxt(data_file_path_list[0], usecols=0) # Read wavelength
     for data_file_path in data_file_path_list: # Read intenisty
-    	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
+        intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
     
     min_intensity = 0
@@ -85,7 +85,7 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
 
 
     for i in range(len(data_file_path_list)):
-    	ax.plot(wavelength, intensity_list[i], color=plot_color_list[i], linewidth=2.5, antialiased=True)
+        ax.plot(wavelength, intensity_list[i], color=plot_color_list[i], linewidth=2.5, antialiased=True)
     
 
     ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
@@ -122,10 +122,10 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
 
     wavelength = np.loadtxt(data_file_path_list[0], usecols=0)
     for data_file_path in data_file_path_list:
-    	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
+        intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
     for i in range(len(data_file_path_list)):
-    	ax.plot(wavelength, normalize(intensity_list[i]), color=plot_color_list[i], linewidth=2.5, antialiased=True)
+        ax.plot(wavelength, normalize(intensity_list[i]), color=plot_color_list[i], linewidth=2.5, antialiased=True)
 
     
 
@@ -155,7 +155,7 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
     
     wavelength = np.loadtxt(data_file_path_list[0], usecols=0)
     for data_file_path in data_file_path_list:
-    	intensity_list.append(np.loadtxt(data_file_path, usecols=2))
+        intensity_list.append(np.loadtxt(data_file_path, usecols=2))
 
     min_intensity = 0
     max_intensity = 0
@@ -167,8 +167,8 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
             min_intensity = min(intensity_list[i])
 
     for i in range(len(intensity_list)-1):
-    	for j in range(len(intensity_list[i])):
-        	pct_response.append((float(intensity_list[i+1][j])-float(intensity_list[i][j]))/float(intensity_list[i][j]))
+        for j in range(len(intensity_list[i])):
+            pct_response.append((float(intensity_list[i+1][j])-float(intensity_list[i][j]))/float(intensity_list[i][j]))
     min_response = min(pct_response)
     max_response = max(pct_response)
     
@@ -221,70 +221,75 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
 
 def main():
 
-	data_file_path_list = [] # Create an empty list to hold data files provided
-	plot_color_list = [] # Create an empty list to hold colors provided
-	legend_label_list = [] # Create an empty list to hold legend names provided
-	
-	available_color = ['red', 'orange', 'gold', 'limegreen', 'dodgerblue', 'blue', 'darkviolet', 'fuchsia', 'lime', 'darkorange', 'black']
-	#headings = ['COLOR', 'LEGEND'] # Headings name
+    available_color = ['red', 'orange', 'gold', 'limegreen', 'dodgerblue', 'blue', 'darkviolet', 'fuchsia', 'lime', 'darkorange', 'black']
+    #headings = ['COLOR', 'LEGEND'] # Headings name
 
-	#-----GUI Definition-----#
-	sg.theme('LightBrown3')
+    #-----GUI Definition-----#
+    sg.theme('LightBrown3')
 
-	layout1 = [
-		[sg.Text('Input File:', font='Courier 20', justification='r'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20')],
-		[sg.OK(font='Courier 20'), sg.Cancel(button_color='tomato', font='Courier 20')]
-	]
+    layout1 = [
+        [sg.Text('Input File:', font='Courier 20', justification='r'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20')],
+        [sg.OK(font='Courier 20'), sg.Cancel(button_color='tomato', font='Courier 20')]
+    ]
 
-	window1 = sg.Window('Select file(s).', layout1)
+    window1 = sg.Window('Select file(s).', layout1)
 
-	event, data_file_path_all = window1.read()
+    while True:
 
-	if event in (sg.WIN_CLOSED, 'Cancel'):
-		exit()
+        data_file_path_list = [] # Create an empty list to hold data files provided
+        plot_color_list = [] # Create an empty list to hold colors provided
+        legend_label_list = [] # Create an empty list to hold legend names provided
 
-	data_file_path_list = data_file_path_all['-FILES-'].split(';')
-	num_files = len(data_file_path_list)
+        event1, data_file_path_all = window1.read()
 
-	layout2 = [
-		# Unpack the list of lists, where each inner list represents a row in a GUI 
-		# os.path.basename() returns the final component of a pathname
-		# os.path.normpath() simplifies the path by removing any double slashes and replacing any backslashes with forward slashes
-		*[[sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20', size=(35,1)), 
-               sg.InputCombo(values=available_color, default_value='black', font='Courier 20'),
-               sg.InputText('Enter Legend Label', font='Courier 20'),
-              ] for file_path in data_file_path_list
-             ],
-		[sg.Button('Plot Basic', font='Courier 20'),
-			sg.Button('Plot Normalized', font='Courier 20'),
-			sg.Button('Plot ∆F/F', font='Courier 20'),
-			sg.Button('Clear', font='Courier 20'),
-			sg.Exit(button_color='tomato', font='Courier 20')]
-	]
+        if event1 in (sg.WIN_CLOSED, 'Cancel'):
+            exit()
 
-	window2 = sg.Window('Plotting Fluorescence Spectra', layout2)
+        data_file_path_list = data_file_path_all['-FILES-'].split(';')
+        num_files = len(data_file_path_list)
 
-	while True:
-		event, value = window2.read()
-		for i in range(2*num_files):
-			if i % 2 == 0:
-				plot_color_list.append(value[i])
-			else:
-				legend_label_list.append(value[i])
+        # Unpack the list of lists, where each inner list represents a row in a GUI 
+        # os.path.basename() returns the final component of a pathname
+        # os.path.normpath() simplifies the path by removing any double slashes and replacing any backslashes with forward slashes
+        layout2 = [
+        *[
+        [sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20', size=(35,1)), 
+        sg.InputCombo(values=available_color, default_value='black', font='Courier 20'),
+        sg.InputText('Enter Legend Label', font='Courier 20')] for file_path in data_file_path_list],
+        [sg.Button('Plot Basic', font='Courier 20'),
+        sg.Button('Plot Normalized', font='Courier 20'),
+        sg.Button('Plot ∆F/F', font='Courier 20'),
+        sg.Button('Clear', font='Courier 20'),
+        sg.Exit(button_color='tomato', font='Courier 20')]
+        ]
 
-		if event in (sg.WIN_CLOSED, 'Exit'):
-			break
-		elif event == 'Plot Basic':
-			#if is_valid_path(value['-FILES-']):
-			plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list)
-		elif event == 'Plot Normalized':
-			plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
-		elif event == 'Plot ∆F/F':
-			plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
-		elif event == 'Clear':
-			sg.popup_error('Not implemented yet')
+        window2 = sg.Window('Plotting Fluorescence Spectra', layout2)
 
-	window2.close()
+        while True:
+
+            event2, value = window2.read()
+            print(event2)
+            for i in range(2*num_files):
+                if i % 2 == 0:
+                    plot_color_list.append(value[i])
+                else:
+                    legend_label_list.append(value[i])
+
+            if event2 in (sg.WIN_CLOSED, 'Exit'):
+                break
+            elif event2 == 'Plot Basic':
+                plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list)
+            elif event2 == 'Plot Normalized':
+                plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
+            elif event2 == 'Plot ∆F/F':
+                plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
+            elif event2 == 'Clear':
+                sg.popup_error('Not implemented yet')
+
+        window2.close()
+
+        window1['-FILES-'].Update('')
+        #window1['Browse'].Update('')
 
 if __name__ == '__main__':
-	main()
+    main()
