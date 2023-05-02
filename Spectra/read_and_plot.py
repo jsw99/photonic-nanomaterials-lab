@@ -86,7 +86,6 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
 
     for i in range(len(data_file_path_list)):
         ax.plot(wavelength, intensity_list[i], color=plot_color_list[i], linewidth=2.5, antialiased=True)
-    
 
     ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
     ax.set_ylabel('Intensity (a.u.)', fontsize=25, labelpad=18)
@@ -126,8 +125,6 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
 
     for i in range(len(data_file_path_list)):
         ax.plot(wavelength, normalize(intensity_list[i]), color=plot_color_list[i], linewidth=2.5, antialiased=True)
-
-    
 
     ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
     ax.set_ylabel('Intensity (normalized)', fontsize=25, labelpad=18)
@@ -228,11 +225,11 @@ def main():
     sg.theme('LightBrown3')
 
     layout1 = [
-        [sg.Text('Input File:', font='Courier 20', justification='r'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20')],
-        [sg.OK(font='Courier 20'), sg.Cancel(button_color='tomato', font='Courier 20')]
+        [sg.Text('Input File:', font='Courier 20', justification='r'), sg.Input(key='-FILES-', font='Courier 20'), sg.FilesBrowse(font='Courier 20', size=(6,1))],
+        [sg.Push(), sg.Exit(button_color='tomato', font='Courier 20', size=(6,1)), sg.OK(font='Courier 20', size=(6, 1))]
     ]
 
-    window1 = sg.Window('Select file(s).', layout1)
+    window1 = sg.Window('Select file(s).', layout1, resizable=True)
 
     while True:
 
@@ -242,7 +239,7 @@ def main():
 
         event1, data_file_path_all = window1.read()
 
-        if event1 in (sg.WIN_CLOSED, 'Cancel'):
+        if event1 in (sg.WIN_CLOSED, 'Exit'):
             exit()
 
         data_file_path_list = data_file_path_all['-FILES-'].split(';')
@@ -252,23 +249,29 @@ def main():
         # os.path.basename() returns the final component of a pathname
         # os.path.normpath() simplifies the path by removing any double slashes and replacing any backslashes with forward slashes
         layout2 = [
+        [sg.Push(), sg.Text('-------------------------Supprots LaTeX math codes for labels.-------------------------', font='Courier 20', justification='c'), sg.Push()],
         *[
-        [sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20', size=(35,1)), 
-        sg.InputCombo(values=available_color, default_value='black', font='Courier 20'),
-        sg.InputText('Enter Legend Label', font='Courier 20')] for file_path in data_file_path_list],
-        [sg.Button('Plot Basic', font='Courier 20'),
+        [sg.Text('File: {}'.format(os.path.basename(os.path.normpath(file_path))), font='Courier 20', size=(40,1)), 
+        sg.InputCombo(values=available_color, default_value='black', font='Courier 20', size=(13,1)),
+        sg.InputText('Enter Label', font='Courier 20', size=(25,1))] for file_path in data_file_path_list],
+        [
+        sg.Push(),
+        sg.Button('Plot Basic', font='Courier 20'),
         sg.Button('Plot Normalized', font='Courier 20'),
         sg.Button('Plot ∆F/F', font='Courier 20'),
-        sg.Button('Clear', font='Courier 20'),
-        sg.Exit(button_color='tomato', font='Courier 20')]
+        sg.Button('Reset Color', font='Courier 20'),
+        sg.Button('Reset Label', font='Courier 20'),
+        sg.Push(),
+        sg.Exit(button_color='tomato', font='Courier 20')
+        ]
         ]
 
-        window2 = sg.Window('Plotting Fluorescence Spectra', layout2)
+        window2 = sg.Window('Plotting Fluorescence Spectra', layout2, resizable=True)
 
         while True:
 
             event2, value = window2.read()
-            print(event2)
+ 
             for i in range(2*num_files):
                 if i % 2 == 0:
                     plot_color_list.append(value[i])
@@ -283,8 +286,16 @@ def main():
                 plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
             elif event2 == 'Plot ∆F/F':
                 plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
-            elif event2 == 'Clear':
-                sg.popup_error('Not implemented yet')
+            elif event2 == 'Reset Color':
+                for i in range(0, 2*num_files, 2):
+                    value.pop(i)
+                    plot_color_list = []
+                    window2[i].Update(value='Select a Color')
+            elif event2 == 'Reset Label':
+                for i in range(1, 2*num_files, 2):
+                    value.pop(i)
+                    legend_label_list = []
+                    window2[i].Update('Enter Label')
 
         window2.close()
 
