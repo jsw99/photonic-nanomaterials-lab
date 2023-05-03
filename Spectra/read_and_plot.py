@@ -106,7 +106,7 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
     for i in ['right', 'left', 'top', 'bottom']:
         ax.spines[i].set_linewidth(2.5)
 
-    plt.show()
+    plt.show(block=False)
 
     #fig.savefig('.png', bbox_inches='tight', dpi=150)
 
@@ -143,7 +143,7 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
     for i in ['right', 'left', 'top', 'bottom']:
         ax.spines[i].set_linewidth(2.5)
 
-    plt.show()
+    plt.show(block=False)
 
 def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list):
     
@@ -212,7 +212,7 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
 
     ax1.legend(handles=lines, labels=labs, loc='best', fontsize=16, fancybox=True, framealpha=0.5)
     
-    plt.show()
+    plt.show(block=False)
    
     
 
