@@ -1,0 +1,27 @@
+    Sequence  Tm_Wallace  Tm_GC  Tm_Breslauer  Tm_Sugimoto
+TATTATTATTAT        24.0   9.90          9.14         7.36
+TTATTTTTTATT        24.0   9.90         19.00        14.12
+ATTTTTTTTTTA        24.0   9.90         23.60        17.14
+TTATATTATATT        24.0   9.90          9.14         7.36
+CCACCACCACCA        40.0  37.24         42.14        40.68
+GCGCGCGCGCGC        48.0  50.90         73.01        63.43
+TGTGTTTTGTGT        32.0  23.57         23.49        30.42
+TTTTCCCCCCCC        40.0  37.24         53.17        41.08
+TTTCCCCCCCCC        42.0  40.65         56.27        43.52
+CCTCCCCCCCCT        44.0  44.07         54.79        45.53
+GTGTGTGTGTGT        36.0  30.40         18.21        33.87
+ATTTATTTATTT        24.0   9.90         17.52        12.37
+CCCCCTCCCCCT        44.0  44.07         54.79        45.53
+TTTCCCCCCCCT        40.0  37.24         52.40        42.05
+CCTTTCCCCCCT        40.0  37.24         48.40        40.47
+GGGGTTTTGGGG        40.0  37.24         49.90        39.90
+AACACCACACAC        36.0  30.40         25.53        34.29
+TTTTCCCCCCCT        38.0  33.82         49.22        39.50
+ACACACACAACG        36.0  30.40         27.65        36.53
+AACACACCACAG        36.0  30.40         26.52        34.28
+ACACACCATCAG        36.0  30.40         25.60        33.20
+AGCAGCACACGA        38.0  33.82         38.84        42.31
+ACGCCAACACAT        36.0  30.40         38.07        38.48
+AACACACACAGC        36.0  30.40         26.79        34.98
+AGCACCAGACAG        38.0  33.82         31.43        37.44
+ACGCACCGACAG        40.0  37.24         42.95        44.67
