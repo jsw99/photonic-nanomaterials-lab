@@ -141,8 +141,6 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
     plt.show(block=False)
     #global should_close
 
-    if should_close:
-        plt.close()
     #fig.savefig('.png', bbox_inches='tight', dpi=150)
 
 def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list):
@@ -182,8 +180,6 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
 
     plt.show(block=False)
 
-    if should_close:
-        plt.close()
 
 def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list):
     
@@ -257,8 +253,6 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
 
     plt.show(block=False)
 
-    if should_close:
-        plt.close()
 
 def main():
     global folder_icon, file_icon
@@ -365,6 +359,9 @@ def main():
                         break
                     elif event2 == 'Plot Basic':
                         plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list)
+                        if should_close:
+                            plt.close()
+                            should_close = False # Reset the flag
                     elif event2 == 'Plot Normalized':
                         plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
                         if should_close:
