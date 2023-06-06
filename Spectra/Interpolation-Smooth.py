@@ -11,8 +11,6 @@ import glob
 
 
 # In[ ]:
-
-
 def NormalizeData(data):
     return (data - np.min(data)) / (np.max(data) - np.min(data))
 
@@ -32,6 +30,7 @@ wavelength = np.loadtxt('930~1367_640_wavelength.txt', usecols=0)
 
 # Files to be processed
 fluorescence_intensity_file_list = glob.glob('*.txt')
+#fluorescence_intensity_file_list = ['/Users/jasonwang/photonic-nanomaterials-lab/Spectra/test_folder/1/A(CA)4ACG-HiPco_2.txt']
 
 
 # In[ ]:

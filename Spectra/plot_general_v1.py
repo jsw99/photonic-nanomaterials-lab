@@ -1,6 +1,6 @@
 from pathlib import Path
-import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.pyplot as plt
 from matplotlib import rcParams
 rcParams['font.family'] = 'Arial'
 import math
@@ -9,7 +9,6 @@ import sys
 import os
 import PySimpleGUI as sg
 from scipy import interpolate
-
 
 def is_valid_path(data_file_path_list):
     for data_file_path in data_file_path_list:
@@ -139,7 +138,9 @@ def plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_labe
     fig.canvas.mpl_connect('close_event', on_close)
 
     plt.show(block=False)
-    #global should_close
+    #plt.pause(3)
+    #plt.close()
+    global should_close
 
     #fig.savefig('.png', bbox_inches='tight', dpi=150)
 
@@ -176,7 +177,7 @@ def plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, 
     for i in ['right', 'left', 'top', 'bottom']:
         ax.spines[i].set_linewidth(2.5)
 
-    fig.canvas.mpl_connect('close_eveno  t', on_close)
+    #fig.canvas.mpl_connect('close_event', on_close)
 
     plt.show(block=False)
 
@@ -249,7 +250,7 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
 
     ax1.legend(handles=lines, labels=labs, loc='best', fontsize=16, fancybox=True, framealpha=0.5)
     
-    fig.canvas.mpl_connect('close_event', on_close)
+    #fig.canvas.mpl_connect('close_event', on_close)
 
     plt.show(block=False)
 
@@ -364,14 +365,14 @@ def main():
                             should_close = False # Reset the flag
                     elif event2 == 'Plot Normalized':
                         plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
-                        if should_close:
-                            plt.close()
-                            should_close = False # Reset the flag
+                        #if should_close:
+                            #plt.close()
+                            #should_close = False # Reset the flag
                     elif event2 == 'Plot ∆F/F':
                         plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
-                        if should_close:
-                            plt.close()
-                            should_close = False # Reset the flag
+                        #if should_close:
+                            #plt.close()
+                            #should_close = False # Reset the flag
                     elif event2 == 'Reset Color':
                         for i in range(0, 2*num_files, 2):
                             values.pop(i)

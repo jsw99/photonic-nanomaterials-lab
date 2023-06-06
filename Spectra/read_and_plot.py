@@ -166,8 +166,8 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
     for i in range(len(intensity_list)-1):
         for j in range(len(intensity_list[i])):
             pct_response.append((float(intensity_list[i+1][j])-float(intensity_list[i][j]))/float(intensity_list[i][j]))
-    min_response = min(pct_response)
-    max_response = max(pct_response)
+    min_response = min(pct_response[45:]) #only consider range after 967.95972nm, because it is too noisy in the shorter wavelength range
+    max_response = max(pct_response[45:])
     
     fig = plt.figure(figsize=(13, (13-1.5)/1.618))
     ax1 = fig.add_axes([0.152, 0.15, 0.735, 0.735*13/(13-1.5)])
