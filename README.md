@@ -17,6 +17,6 @@ While the idea is of great promise, fluorescent sensors based on ssDNA-SWCNTs ha
 With this project, we aim to identify the appropriate ssDNA-SWCNTs combinations with desirable property efficiently.
 
 ## Methods
-![image](DoE.png)
+![image](schematics/DoE.png)
 
 ## Results
