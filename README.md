@@ -15,6 +15,11 @@ Given that both aptamers and SWCNTs are prime candidates as sensors, incorporati
 While the idea is of great promise, fluorescent sensors based on ssDNA-SWCNTs have barely been put into practice. The challenge that limits the development lies in the enormous search space of possible ssDNA sequences and the reproducibility of such sensors.
 
 With this project, we aim to identify the appropriate ssDNA-SWCNTs combinations with desirable property efficiently.
+The objectives of the current study are listed as follows:
+```
+1. To develop a protocol for producing reproducible ssDNA-SWCNTs nanosensors.
+2. To construct a machine learning model that achieve acceptable predcition accuracy with as little training data as possible.
+```
 
 ## Methods
 ![image](schematics/DoE.png)
