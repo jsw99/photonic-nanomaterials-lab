@@ -320,13 +320,10 @@ def plot_mean_std(data_file_path_list, plot_color_list, legend_label_list):
     max_intensity = 0
     for i in range(len(mean_intensity_640_list)):
         if max(mean_intensity_640_list[i]+std_640_list[i]) > max_intensity:
-            print(mean_intensity_640_list[i]+std_640_list[i])
             max_intensity = max(mean_intensity_640_list[i]+std_640_list[i])
     for i in range(len(mean_intensity_640_list)):
         if min(mean_intensity_640_list[i]-std_640_list[i]) < min_intensity:
             min_intensity = min(mean_intensity_640_list[i]-std_640_list[i])
-
-    print(max_intensity, min_intensity)
 
     ax.set_xlim(930, 1370)     
     ax.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
