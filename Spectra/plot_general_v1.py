@@ -209,7 +209,7 @@ def plot_fluorescence_response(data_file_path_list, plot_color_list, legend_labe
     max_response = max(pct_response[87:])
     
     fig = plt.figure(figsize=(13, (13-1.5)/1.618))
-    ax1 = fig.add_axes([0.152, 0.15, 0.735, 0.735*13/(13-1.5)])
+    ax1 = fig.add_axes([0.132, 0.15, 0.735, 0.735*13/(13-1.5)])
     ax1.set_xlim(930, 1370)
     ax1.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
     ax2 = ax1.twinx()
