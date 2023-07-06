@@ -345,6 +345,77 @@ def plot_mean_std(data_file_path_list, plot_color_list, legend_label_list):
 
     plt.show(block=False)
 
+def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_list):
+    global wavelength
+    wavelength = np.loadtxt('930~1367_640_wavelength.txt', usecols=0)
+
+    fig = plt.figure(figsize=(13, (13-1.5)/1.618))
+    ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
+
+    mean_intensity_512_list = []
+    std_512_list = []
+
+    for data_file_path in data_file_path_list:
+        #root
+        tdms_file = TdmsFile.read(data_file_path)
+        #group
+        para_group = tdms_file['Parameters']
+        process_group = tdms_file['Processed Spectrum']
+        raw_group = tdms_file['Raw Data']
+        #channel
+        wavelength_channel = para_group['Wavelength']
+        #data
+        wavelength_512 = wavelength_channel[:]
+
+        intensity_list = []
+
+        for channel in process_group.channels():
+            intensity_512 = channel[:]
+            intensity_list.append(intensity_512)
+
+        intensity_matrix_lambda_row = np.transpose(np.array(intensity_list))
+
+        mean_intensity_512 = np.mean(intensity_matrix_lambda_row, axis=1)
+
+        mean_intensity_512_list.append(mean_intensity_512)
+
+    mean_intensity_640_list = []
+    pct_response = [] #∆F/F
+
+    for mean_intensity in mean_intensity_512_list:
+        f_mean = interpolate.interp1d(wavelength_512, mean_intensity)
+        mean_intensity_640 = f_mean(wavelength)
+        mean_intensity_640_list.append(mean_intensity_640)
+
+
+    for i in range(len(mean_intensity_640_list)-1):
+        for j in range(len(mean_intensity_640_list[i])):
+            pct_response.append((float(mean_intensity_640_list[i+1][j])-float(mean_intensity_640_list[i][j]))/float(mean_intensity_640_list[i][j]))
+    min_response = min(pct_response[87:])
+    max_response = max(pct_response[87:])
+
+    ax.plot(wavelength, pct_response, 'lime', label=legend_label_list[-1], linewidth=2.5, antialiased=True)
+
+    ax.set_xlim(930, 1370)     
+    ax.set_ylim(calculate_min_lim(min_response), calculate_max_lim(max_response))
+
+    ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=20)
+    ax.set_ylabel('∆F/F$_{0}$', fontsize=25, labelpad=18)
+
+    ax.minorticks_on()
+    ax.xaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
+    ax.xaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, top='on', direction='in')
+
+    ax.yaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, right='on', direction='in', pad=15)
+    ax.yaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, right='on', direction='in')
+
+    ax.legend(loc='best', fontsize=15, fancybox=True, framealpha=0.5)
+
+    for i in ['right', 'left', 'top', 'bottom']:
+        ax.spines[i].set_linewidth(2.5)
+
+    plt.show(block=False)
+
 
 def main():
     global folder_icon, file_icon
@@ -424,7 +495,8 @@ def main():
                 sg.Button('Basic', font='Courier 20'),
                 sg.Button('Normalized', font='Courier 20'),
                 sg.Button('∆F/F', font='Courier 20'),
-                sg.Button('Mean&Std', font='Courier 20'),
+                sg.Button('Mean&Std (tdms)', font='Courier 20'),
+                sg.Button('∆F/F (tdms)', font='Courier 20'),
                 sg.Button('Reset Color', font='Courier 20'),
                 sg.Button('Reset Label', font='Courier 20'),
                 sg.Push(),
@@ -465,8 +537,10 @@ def main():
                         #if should_close:
                             #plt.close()
                             #should_close = False # Reset the flag
-                    elif event2 == 'Mean&Std':
+                    elif event2 == 'Mean&Std (tdms)':
                         plot_mean_std(data_file_path_list, plot_color_list, legend_label_list)
+                    elif event2 == '∆F/F (tdms)':
+                        plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_list)
                     elif event2 == 'Reset Color':
                         for i in range(0, 2*num_files, 2):
                             values.pop(i)
