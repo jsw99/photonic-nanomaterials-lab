@@ -394,7 +394,7 @@ def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_l
     min_response = min(pct_response[87:])
     max_response = max(pct_response[87:])
 
-    ax.plot(wavelength, pct_response, 'lime', label=legend_label_list[-1], linewidth=2.5, antialiased=True)
+    ax.plot(wavelength, pct_response, 'lime', label=legend_label_list[0], linewidth=2.5, antialiased=True)
 
     ax.set_xlim(930, 1370)     
     ax.set_ylim(calculate_min_lim(min_response), calculate_max_lim(max_response))
@@ -492,9 +492,9 @@ def main():
                 sg.InputText('Enter Label', font='Courier 20', size=(25,1))] for file_path in data_file_path_list],
                 [
                 sg.Push(),
-                sg.Button('Basic', font='Courier 20'),
-                sg.Button('Normalized', font='Courier 20'),
-                sg.Button('∆F/F', font='Courier 20'),
+                sg.Button('Basic (txt)', font='Courier 20'),
+                sg.Button('Normalized (txt)', font='Courier 20'),
+                sg.Button('∆F/F (txt)', font='Courier 20'),
                 sg.Button('Mean&Std (tdms)', font='Courier 20'),
                 sg.Button('∆F/F (tdms)', font='Courier 20'),
                 sg.Button('Reset Color', font='Courier 20'),
@@ -522,17 +522,17 @@ def main():
 
                     if event2 in (sg.WIN_CLOSED, 'Exit'):
                         break
-                    elif event2 == 'Basic':
+                    elif event2 == 'Basic (txt)':
                         plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list)
                         if should_close:
                             plt.close()
                             should_close = False # Reset the flag
-                    elif event2 == 'Normalized':
+                    elif event2 == 'Normalized (txt)':
                         plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
                         #if should_close:
                             #plt.close()
                             #should_close = False # Reset the flag
-                    elif event2 == '∆F/F':
+                    elif event2 == '∆F/F (txt)':
                         plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
                         #if should_close:
                             #plt.close()
