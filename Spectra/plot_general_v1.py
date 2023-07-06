@@ -421,10 +421,10 @@ def main():
                 sg.InputText('Enter Label', font='Courier 20', size=(25,1))] for file_path in data_file_path_list],
                 [
                 sg.Push(),
-                sg.Button('Plot Basic', font='Courier 20'),
-                sg.Button('Plot Normalized', font='Courier 20'),
-                sg.Button('Plot ∆F/F', font='Courier 20'),
-                sg.Button('Plot Mean & Std', font='Courier 20'),
+                sg.Button('Basic', font='Courier 20'),
+                sg.Button('Normalized', font='Courier 20'),
+                sg.Button('∆F/F', font='Courier 20'),
+                sg.Button('Mean&Std', font='Courier 20'),
                 sg.Button('Reset Color', font='Courier 20'),
                 sg.Button('Reset Label', font='Courier 20'),
                 sg.Push(),
@@ -450,22 +450,22 @@ def main():
 
                     if event2 in (sg.WIN_CLOSED, 'Exit'):
                         break
-                    elif event2 == 'Plot Basic':
+                    elif event2 == 'Basic':
                         plot_fluorescence_spectrum(data_file_path_list, plot_color_list, legend_label_list)
                         if should_close:
                             plt.close()
                             should_close = False # Reset the flag
-                    elif event2 == 'Plot Normalized':
+                    elif event2 == 'Normalized':
                         plot_fluorescence_spectrum_normalized(data_file_path_list, plot_color_list, legend_label_list)
                         #if should_close:
                             #plt.close()
                             #should_close = False # Reset the flag
-                    elif event2 == 'Plot ∆F/F':
+                    elif event2 == '∆F/F':
                         plot_fluorescence_response(data_file_path_list, plot_color_list, legend_label_list)
                         #if should_close:
                             #plt.close()
                             #should_close = False # Reset the flag
-                    elif event2 == 'Plot Mean & Std':
+                    elif event2 == 'Mean&Std':
                         plot_mean_std(data_file_path_list, plot_color_list, legend_label_list)
                     elif event2 == 'Reset Color':
                         for i in range(0, 2*num_files, 2):
