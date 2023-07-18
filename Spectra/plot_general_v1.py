@@ -391,8 +391,8 @@ def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_l
     for i in range(len(mean_intensity_640_list)-1):
         for j in range(len(mean_intensity_640_list[i])):
             pct_response.append((float(mean_intensity_640_list[i+1][j])-float(mean_intensity_640_list[i][j]))/float(mean_intensity_640_list[i][j]))
-    min_response = min(pct_response[87:])
-    max_response = max(pct_response[87:])
+    min_response = min(pct_response[57:])
+    max_response = max(pct_response[57:])
 
     ax.plot(wavelength, pct_response, 'lime', label=legend_label_list[0], linewidth=2.5, antialiased=True)
 
@@ -491,12 +491,17 @@ def main():
                 sg.InputCombo(values=available_color, default_value='black', font='Courier 20', size=(13,1)),
                 sg.InputText('Enter Label', font='Courier 20', size=(25,1))] for file_path in data_file_path_list],
                 [
-                sg.Push(),
                 sg.Button('Basic (txt)', font='Courier 20'),
                 sg.Button('Normalized (txt)', font='Courier 20'),
                 sg.Button('∆F/F (txt)', font='Courier 20'),
+                sg.Push()
+                ],
+                [
                 sg.Button('Mean&Std (tdms)', font='Courier 20'),
                 sg.Button('∆F/F (tdms)', font='Courier 20'),
+                sg.Push()
+                ],
+                [
                 sg.Button('Reset Color', font='Courier 20'),
                 sg.Button('Reset Label', font='Courier 20'),
                 sg.Push(),
