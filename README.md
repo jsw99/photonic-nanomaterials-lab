@@ -1,4 +1,4 @@
-# Deep Learning-Guided Discovery of Carbon Nanotube Based-Near-Infrared Nanosensors for Cocaine
+# Deep Learning-Guided Discovery of Carbon Nanotube-Based Near-Infrared Nanosensors for Cocaine
 
 ## Table of contents
 * [Motivation](#motivation)
