@@ -5,10 +5,6 @@
 * [Methods](#methods)
 * [Results](#results)
 
-Some coding scripts for plotting spectra, data processing, machine learning, etc.
-
-For more information, please visit [https://sites.google.com/view/lincwgroup](https://sites.google.com/view/lincwgroup)
-
 ## Motivation
 With desirable optical and fluorescent properties, single-walled carbon nanotubes (SWCNTs) have been successfully demostrated as biological sensors with high sensitivity. On the other hand, aptamers, which are nucleic acid based binding molecules, have great potential to serve as sensors in a wide variety of applications, such as medical diagnostics and drug detection.
 
