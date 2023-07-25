@@ -4,6 +4,13 @@
 
 *.DS_Store
 
+*.tiff
+
+*.npy
+
+*.spe
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
