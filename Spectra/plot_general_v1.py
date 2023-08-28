@@ -270,21 +270,21 @@ def plot_mean_std(data_file_path_list, plot_color_list, legend_label_list):
         #root
         tdms_file = TdmsFile.read(data_file_path)
         #group
-        para_group = tdms_file['Parameters']
+        #para_group = tdms_file['Parameters']
         process_group = tdms_file['Processed Spectrum']
         raw_group = tdms_file['Raw Data']
         #channel
-        wavelength_channel = para_group['Wavelength']
+        wavelength_channel = process_group['Wavelength']
         #data
-        wavelength_512 = wavelength_channel[:]
+        wavelength_512 = wavelength_channel[1:]
 
         intensity_list = []
 
         for channel in process_group.channels():
-            intensity_512 = channel[:]
+            intensity_512 = channel[1:]
             intensity_list.append(intensity_512)
 
-        intensity_matrix_lambda_row = np.transpose(np.array(intensity_list))
+        intensity_matrix_lambda_row = np.transpose(np.array(intensity_list[1:]))
 
         mean_intensity_512 = np.mean(intensity_matrix_lambda_row, axis=1)
 
@@ -359,13 +359,13 @@ def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_l
         #root
         tdms_file = TdmsFile.read(data_file_path)
         #group
-        para_group = tdms_file['Parameters']
+        #para_group = tdms_file['Parameters']
         process_group = tdms_file['Processed Spectrum']
         raw_group = tdms_file['Raw Data']
         #channel
-        wavelength_channel = para_group['Wavelength']
+        wavelength_channel = process_group['Wavelength']
         #data
-        wavelength_512 = wavelength_channel[:]
+        wavelength_512 = wavelength_channel[1:]
 
         intensity_list = []
 
@@ -373,7 +373,7 @@ def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_l
             intensity_512 = channel[:]
             intensity_list.append(intensity_512)
 
-        intensity_matrix_lambda_row = np.transpose(np.array(intensity_list))
+        intensity_matrix_lambda_row = np.transpose(np.array(intensity_list[1:]))
 
         mean_intensity_512 = np.mean(intensity_matrix_lambda_row, axis=1)
 
