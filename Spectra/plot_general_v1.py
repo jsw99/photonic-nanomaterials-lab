@@ -46,6 +46,23 @@ def interpolate_640(data_file_path_list):
 
     return interpolate_intensity_list
 
+def interpolate_640_new(data_file_path_list):
+    interpolate_intensity_list_new = []
+
+    global wavelength
+    wavelength = np.loadtxt('930~1367_640_wavelength.txt', usecols=0)
+
+    for data_file_path in data_file_path_list:
+        all_data = np.loadtxt((open(data_file_path,'rt').readlines()[2:]), skiprows=1, dtype=None)
+        all_data = all_data.transpose()
+        wavelength_512 = all_data[0]
+        intensity_512 = all_data[1]
+        f = interpolate.interp1d(wavelength_512, intensity_512)
+        intensity_640 = f(wavelength)
+        interpolate_intensity_list_new.append(intensity_640)
+
+    return interpolate_intensity_list_new
+
 def calculate_max_lim(max_intensity):
     maximum = max_intensity
     if maximum >= 10:
@@ -416,6 +433,54 @@ def plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_l
 
     plt.show(block=False)
 
+def plot_reference(data_file_path_list, plot_color_list, legend_label_list):
+
+    intensity_list = interpolate_640_new(data_file_path_list)
+
+    fig = plt.figure(figsize=(13, (13-1.5)/1.618))
+    ax = fig.add_axes([0.26, 0.15, 0.735, 0.735*13/(13-1.5)])
+
+    #wavelength = np.loadtxt(data_file_path_list[0], usecols=0) # Read wavelength
+    #for data_file_path in data_file_path_list: # Read intenisty
+    #    intensity_list.append(np.loadtxt(data_file_path, usecols=2))
+
+    min_intensity = 0
+    max_intensity = 0
+    for i in range(len(intensity_list)):
+        if max(intensity_list[i]) > max_intensity:
+            max_intensity = max(intensity_list[i])
+    for i in range(len(intensity_list)):
+        if min(intensity_list[i]) < min_intensity:
+            min_intensity = min(intensity_list[i])
+
+    ax.set_xlim(930, 1370)     
+    ax.set_ylim(calculate_min_lim(min_intensity), calculate_max_lim(max_intensity))
+
+
+    for i in range(len(data_file_path_list)):
+        ax.plot(wavelength, intensity_list[i], color=plot_color_list[i], linewidth=2.5, antialiased=True)
+
+    ax.set_xlabel('Wavelength (nm)', fontsize=25, labelpad=18)
+    ax.set_ylabel('Intensity (a.u.)', fontsize=25, labelpad=18)
+
+    ax.minorticks_on()
+    ax.xaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, top='on', direction='in', pad=15)
+    ax.xaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, top='on', direction='in')
+
+    ax.yaxis.set_tick_params(which='major', labelsize=20, width=2.5, length=15, right='on', direction='in', pad=15)
+    ax.yaxis.set_tick_params(which='minor', labelsize=20, width=2.5, length=6, right='on', direction='in')
+
+    ax.ticklabel_format(style='plain')
+
+    ax.legend(labels=legend_label_list, loc='best', fontsize=16, fancybox=True, framealpha=0.5)
+
+    for i in ['right', 'left', 'top', 'bottom']:
+        ax.spines[i].set_linewidth(2.5)
+
+    fig.canvas.mpl_connect('close_event', on_close)
+
+    plt.show(block=False)
+
 
 def main():
     global folder_icon, file_icon
@@ -499,6 +564,7 @@ def main():
                 [
                 sg.Button('Mean&Std (tdms)', font='Courier 20'),
                 sg.Button('∆F/F (tdms)', font='Courier 20'),
+                sg.Button('Reference (txt)', font='Courier 20'),
                 sg.Push()
                 ],
                 [
@@ -546,6 +612,8 @@ def main():
                         plot_mean_std(data_file_path_list, plot_color_list, legend_label_list)
                     elif event2 == '∆F/F (tdms)':
                         plot_response_from_tdms(data_file_path_list, plot_color_list, legend_label_list)
+                    elif event2 == 'Reference (txt)':
+                        plot_reference(data_file_path_list, plot_color_list, legend_label_list)
                     elif event2 == 'Reset Color':
                         for i in range(0, 2*num_files, 2):
                             values.pop(i)
