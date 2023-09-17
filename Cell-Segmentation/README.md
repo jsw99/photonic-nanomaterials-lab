@@ -54,11 +54,19 @@ For better user experience and to make this program accessible for lab member wh
 - After summing up fluorescence intensity of each labeled cell in [fluorescences images with labeled outlines](./schematics/segf2_20.tiff), we count the frequencies of different intensities. This is done across all sets of fluorescence iamges. For example, if we take 80 fluorescence images, we count the frequencies over 80 images.
 
 ### 1. Brightfield image
-![brightfield](./schematics/b_NO5_20.tiff)
+<img src=./schematics/b_NO5_20.png width=512/10 height=640/10>
+
 ### 2. Fluorescence image
-![fluorescence](./schematics/f_NO5_20.tiff)
+<img src=./schematics/f_NO5_20.png width=512/10 height=640/10>
+
 ### 3. Brightfield image with cell outlines
-![brightfield with outlines](./schematics/segb_20.tiff)
+<img src=./schematics/segb_20.png width=512/10 height=640/10>
+
 ### 4. Fluorescence image with cell outlines
-![fluorescence with outlines](./schematics/segf_20.tiff)
+<img src=./schematics/segf_20.png width=512/10 height=640/10>
+
 ### 5. Fluorescence image with labeled cell outlines
+<img src=./schematics/seg2_20.png width=512/10 height=640/10>
+
+### 6. Histogram showing relation between integrated intensities and frequencies
+<img src=./schematics/hist_NO5.png>
