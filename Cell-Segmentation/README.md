@@ -66,6 +66,7 @@ For better user experience and to make this program accessible for lab member wh
 <img src=./schematics/segf_20.png width=512/10 height=640/10>
 
 ### 5. Fluorescence image with labeled cell outlines
+- We used the gating mode. As a result, cells that aggregate was not counted
 <img src=./schematics/seg2_20.png width=512/10 height=640/10>
 
 ### 6. Histogram showing relation between integrated intensities and frequencies
